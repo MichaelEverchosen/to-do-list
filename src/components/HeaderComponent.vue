@@ -5,10 +5,12 @@
       <p>To Do List</p>
     </div>
     <div class="login">
-      <button class="btn">Войти</button>
-      <button class="btn">Регистрация</button>
+      <button class="btn" @click="toggleModal(authorization)">Войти</button>
+      <button class="btn" @click="toggleModal(registration)">
+        Регистрация
+      </button>
     </div>
-    <!-- <ModalWindow v-if="toggleModal" @click="toggleModal">
+    <!-- <ModalWindow v-if="toggleModal !== ''">
       <div v-if="ActiveModalName === 'registration'">
         <p>Регистрация</p>
         <div>
@@ -20,14 +22,15 @@
           <input type="text" placeholder="Введите пароль" />
         </div>
         <div v-if="ActiveModalName === 'authorization'">
-        <p>Авторизация</p>
-        <div>
-          <p>Логин</p>
-          <input type="text" placeholder="Введите логин" />
-        </div>
-        <div>
-          <p>Пароль</p>
-          <input type="text" placeholder="Введите пароль" />
+          <p>Авторизация</p>
+          <div>
+            <p>Логин</p>
+            <input type="text" placeholder="Введите логин" />
+          </div>
+          <div>
+            <p>Пароль</p>
+            <input type="text" placeholder="Введите пароль" />
+          </div>
         </div>
       </div>
     </ModalWindow> -->
@@ -35,7 +38,7 @@
 </template>
 
 <script>
-// import ModalWindow from "@/src/components/ModalWindow.vue";
+// import ModalWindow from "@/components/ModalWindow.vue";
 
 export default {
   components: {
@@ -43,8 +46,14 @@ export default {
   },
   data() {
     return {
-      ActiveModalName: "",
+      isActiveModal: false,
+      activeModalName: "",
     };
+  },
+  methods: {
+    toggleModal(modalName = "") {
+      this.activeModalName = modalName;
+    },
   },
 };
 </script>
@@ -57,7 +66,7 @@ export default {
 
 .logo {
   display: flex;
-  gap: 20px;
+  gap: 40px;
   align-items: center;
 }
 

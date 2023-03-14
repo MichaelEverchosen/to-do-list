@@ -1,7 +1,7 @@
 <template>
   <div class="modal-wrap" @click="$emit('close')">
     <div class="modal">
-      <div @click.stop>
+      <div class="modal-text" @click.stop>
         <slot></slot>
       </div>
       <button class="absolute" @click="$emit('close')">Х</button>
@@ -33,11 +33,16 @@ export default {};
   border: 1px solid rgb(55, 55, 55);
   border-radius: 5px;
   text-align: center;
+  background-color: #ffffff;
 }
 
 .absolute {
   position: absolute;
   top: 10px;
   right: 10px;
+}
+
+.modal-text {
+  padding: 40px;
 }
 </style>
