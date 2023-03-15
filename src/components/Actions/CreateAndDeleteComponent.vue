@@ -43,7 +43,7 @@
       </div>
       <div class="exit-btn">
         <button class="btn" @click="addTodo">Сохранить</button>
-        <button class="btn" @click="toggleModal">Закрыть</button>
+        <button class="btn" @click="closeModal">Закрыть</button>
       </div>
     </div>
   </div>
@@ -53,7 +53,6 @@
 export default {
   data() {
     return {
-      isActiveModal: false,
       todo: {
         title: "",
         description: "",
@@ -78,8 +77,8 @@ export default {
     this.priority = this.priorityOptions[0];
   },
   methods: {
-    toggleModal() {
-      this.isActiveModal = !this.isActiveModal;
+    closeModal() {
+      this.$emit("close");
     },
     addSubtask() {
       this.todo.tasks.push({
@@ -89,7 +88,7 @@ export default {
     },
     addTodo() {
       this.$store.commit("addTodo", this.todo);
-      this.isActiveModal = !this.isActiveModal;
+      this.closeModal();
     },
     optionSelect(option) {
       this.selected = option.name;

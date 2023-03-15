@@ -18,64 +18,23 @@
       </div>
     </div>
     <div class="edit-button">
-      <FeatherIcon type="feather" class="btn" @click="toggleModal('editing')"
+      <FeatherIcon
+        type="feather"
+        class="btn"
+        @click="openEditTodoModal(task.id)"
         >Редактировать</FeatherIcon
       >
-      <FeatherIcon type="trash-2" class="btn" @click="toggleModal('delete')"
+      <FeatherIcon type="trash-2" class="btn" @click="toggleModal"
         >Удалить</FeatherIcon
       >
     </div>
-    <!-- <ModalWindow v-if="isActiveModal !== ''" @close="isActiveModal = false">
-      <div v-if="isActiveModal === 'editing'">
-        <div>
-          <input 
-            v-model="todo.title"
-            class="modal-data"
-            type="text" />
-        </div>
-         <div>
-          <input
-            v-model="todo.description"
-            type="text"
-            class="modal-data"
-          />
-          </div>
-        <div>
-          <input 
-            v-model="todo.priority"
-            class="modal-data"
-            type="text" />
-          <input type="text" />
-        </div>
-        <div>                                                        ПОЛОМАНА ВЕРСТКА
-          <input class="modal-data" type="number" />
-        </div>
-          <input
-            v-for="(task, idx) in todo.tasks"
-            v-model="task.description"
-            :key="idx"
-            class="modal-data"
-            type="text"
-          />
-        </div>
-        <div>
-          <div>
-            <button class="btn" @click="addSubtask">Добавить</button>
-          </div>
-          <div>
-            <button @click="Todo">Сохранить</button>
-            <button @click="toggleModal()">Закрыть</button>
-          </div>
-        </div>
+    <ModalWindow v-if="isActiveModal" @close="isActiveModal = false">
+      <div>
+        <p>Подверлите действие</p>
+        <button @click="deleteTodo()">Удалить</button>
+        <button @click="toggleModal()">Отмена</button>
       </div>
-      <div v-if="isActiveModal === 'delete'">
-        <div>
-          <p>Подверлите действие</p>
-          <button @click="deleteTodo()">Удалить</button>
-          <button @click="toggleModal()">Отмена</button>
-        </div>
-      </div>
-    </ModalWindow> -->
+    </ModalWindow>
   </div>
 </template>
 
@@ -88,15 +47,7 @@ export default {
   },
   data() {
     return {
-      activeModalName: "",
-      // todo: {
-      //   title: this.todo.title,
-      //   description: this.todo.description,
-      //   priority: this.todo.priority,
-      //   id: this.state.todoCount++,
-      //   isComplete: false,
-      //   tasks: this.todo.tasks,
-      // }, или через геттер нужно?
+      isActiveModal: false,
     };
   },
   props: {
@@ -106,17 +57,17 @@ export default {
     },
   },
   methods: {
-    toggleModal(modalName = "") {
-      this.isActiveModal = modalName;
+    toggleModal() {
+      this.isActiveModal = !this.isActiveModal;
     },
     deleteTodo() {
       this.$store.commit("deleteTodo", this.todo.id);
+      this.isActiveModal = !this.isActiveModal;
     },
-    addSubtask() {
-      this.todo.tasks.push({
-        description: "",
-        status: false,
-      });
+
+    openEditTodoModal(id) {
+      this.$store.commit("setActiveTodoId", id);
+      this.$emit("edit-todo");
     },
   },
 };
