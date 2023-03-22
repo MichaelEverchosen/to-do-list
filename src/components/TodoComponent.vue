@@ -1,35 +1,46 @@
 <template>
   <div class="todo">
-    <div class="title">
-      <input type="checkbox" />
-      <p :class="{ strikethrough: todo.complete }">{{ todo.title }}</p>
-    </div>
-    <div>
-      <p>{{ todo.description }}</p>
-    </div>
-    <div class="priority-and-time">
-      <p>{{ todo.priority }}</p>
-      <p>{{ todo.data }}</p>
-    </div>
-    <div class="tasks">
-      <div class="task" v-for="(task, idx) in todo.tasks" :key="idx">
-        <input type="checkbox" />
-        <p>{{ task.description }}</p>
+    <div class="insidesTodo">
+      <div>
+        <div class="title">
+          <p class="priority">{{ todo.priority }}</p>
+          <p :class="{ strikethrough: todo.complete }">{{ todo.title }}:</p>
+          <p class="description">{{ todo.description }}</p>
+        </div>
+        <div class="tasks">
+          <div class="task" v-for="(task, idx) in todo.tasks" :key="idx">
+            <p>{{ task.description }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="priority-and-time">
+        <div class="date">
+          <p>{{ todo.data }}</p>
+        </div>
+        <div class="edit-button">
+          <FeatherIcon type="eye" class="btn" @click="toggleModal('taskView')"
+            >Просмотр всех задач</FeatherIcon
+          >
+          <FeatherIcon type="pen-tool" class="btn" @click="editTodo(todo.id)"
+            >Редактировать</FeatherIcon
+          >
+          <FeatherIcon
+            type="trash-2"
+            class="btn"
+            @click="toggleModal('deleteTodo')"
+            >Удалить</FeatherIcon
+          >
+        </div>
       </div>
     </div>
-    <div class="edit-button">
-      <FeatherIcon
-        type="feather"
-        class="btn"
-        @click="openEditTodoModal(task.id)"
-        >Редактировать</FeatherIcon
-      >
-      <FeatherIcon type="trash-2" class="btn" @click="toggleModal"
-        >Удалить</FeatherIcon
-      >
-    </div>
-    <ModalWindow v-if="isActiveModal" @close="isActiveModal = false">
-      <div>
+    <ModalWindow v-if="activeModal.length" @close="activeModal = ''">
+      <div v-if="activeModal === 'taskView'">
+        <div class="task" v-for="(task, idx) in todo.tasks" :key="idx">
+          <p>{{ task.description }}</p>
+        </div>
+        <button @click="toggleModal()">Выйти</button>
+      </div>
+      <div class="delete" v-if="activeModal === 'deleteTodo'">
         <p>Подверлите действие</p>
         <button @click="deleteTodo()">Удалить</button>
         <button @click="toggleModal()">Отмена</button>
@@ -47,7 +58,7 @@ export default {
   },
   data() {
     return {
-      isActiveModal: false,
+      activeModal: "",
     };
   },
   props: {
@@ -57,15 +68,15 @@ export default {
     },
   },
   methods: {
-    toggleModal() {
-      this.isActiveModal = !this.isActiveModal;
+    toggleModal(modalName = "") {
+      this.activeModal = modalName;
     },
     deleteTodo() {
       this.$store.commit("deleteTodo", this.todo.id);
-      this.isActiveModal = !this.isActiveModal;
+      this.activeModal = !this.activeModal;
     },
 
-    openEditTodoModal(id) {
+    editTodo(id) {
       this.$store.commit("setActiveTodoId", id);
       this.$emit("edit-todo");
     },
@@ -79,9 +90,20 @@ export default {
   border-radius: 5px;
   padding: 10px 20px 25px 20px;
 }
+.insidesTodo {
+  display: grid;
+  grid-template: auto/ 1fr 1fr;
+}
 .title {
   display: flex;
   gap: 20px;
+  font-size: 19px;
+}
+.priority {
+  padding: 1px 5px;
+  background-color: red;
+  border: 1px solid red;
+  border-radius: 3px;
 }
 
 .strikethrough {
@@ -89,8 +111,9 @@ export default {
 }
 
 .priority-and-time {
-  display: flex;
+  display: grid;
   gap: 20px;
+  text-align: right;
 }
 
 .tasks {
@@ -100,15 +123,20 @@ export default {
   display: flex;
   gap: 20px;
 }
+.date {
+  display: flex;
+  justify-content: end;
+  font-size: 19px;
+}
 
 .edit-button {
   display: flex;
-  gap: 30px;
+  justify-content: end;
+  align-items: end;
+  gap: 35px;
+  padding-left: 300px;
 }
 .btn {
-  padding: 15px;
-  border: 1px solid rgb(55, 55, 55);
-  border-radius: 5px;
 }
 
 .btn-icon {

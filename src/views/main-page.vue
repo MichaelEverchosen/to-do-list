@@ -12,11 +12,11 @@
         v-for="(todo, idx) in todos"
         :todo="todo"
         :key="idx"
-        @edit-todo="toggleModal('edit-todo')"
+        @edit-todo="toggleModal"
       ></TodoComponent>
     </div>
-    <ModalWindow v-if="isActiveModal" @close="isActiveModal = false">
-      <CreateAndDeleteComponent @close="isActiveModal = false" />
+    <ModalWindow v-if="isActiveModal" @close="closeModal()">
+      <CreateAndDeleteComponent @close="closeModal()" />
     </ModalWindow>
   </div>
 </template>
@@ -49,6 +49,10 @@ export default {
   methods: {
     toggleModal() {
       this.isActiveModal = !this.isActiveModal;
+    },
+    closeModal() {
+      this.isActiveModal = !this.isActiveModal;
+      this.$store.commit("setActiveTodoId", null);
     },
   },
 };

@@ -5,7 +5,7 @@ const todo = new Vuex.Store({
     todos: [
       {
         title: "Сходить посрать",
-        description: "Cосать",
+        description: "cосать",
         priority: "Срочно",
         data: "12/12/2033",
         isComplete: false,
@@ -27,7 +27,7 @@ const todo = new Vuex.Store({
       },
       {
         title: "Сходить пожрать",
-        description: "Cосать",
+        description: "cосать",
         priority: "Срочно",
         data: "12/12/2033",
         isComplete: false,
@@ -49,7 +49,7 @@ const todo = new Vuex.Store({
       },
       {
         title: "Сходить попить",
-        description: "Cосать",
+        description: "cосать",
         priority: "Срочно",
         data: "12/12/2033",
         isComplete: false,
@@ -71,7 +71,7 @@ const todo = new Vuex.Store({
       },
       {
         title: "Сходить поиграть",
-        description: "Cосать",
+        description: "cосать",
         priority: "Срочно",
         data: "12/12/2033",
         isComplete: false,
@@ -92,6 +92,7 @@ const todo = new Vuex.Store({
         ],
       },
     ],
+    activeTodoId: null,
   },
   mutations: {
     deleteTodo(state, id) {
@@ -108,13 +109,21 @@ const todo = new Vuex.Store({
         tasks: todo.tasks,
       });
     },
+    updateTodo(state, updatedTodo) {
+      const idx = state.todos.findIndex((todo) => todo.id === updatedTodo.id);
+      state.todos[idx] = updatedTodo;
+      state.activeTodoId = null;
+    },
+    setActiveTodoId(state, id) {
+      state.activeTodoId = id;
+    },
   },
   getters: {
     getTodos(state) {
       return state.todos;
     },
-    getTodosEdit(state, idx) {
-      return state.todos;
+    getActiveTodo(state) {
+      return state.todos.find((todo) => todo.id === state.activeTodoId);
     },
   },
 });
