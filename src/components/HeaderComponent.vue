@@ -10,30 +10,6 @@
         Регистрация
       </button>
     </div>
-    <!-- <ModalWindow v-if="toggleModal !== ''">
-      <div v-if="ActiveModalName === 'registration'">
-        <p>Регистрация</p>
-        <div>
-          <p>Придумайте логин</p>
-          <input type="text" placeholder="Введите логин" />
-        </div>
-        <div>
-          <p>Придумайте пароль</p>
-          <input type="text" placeholder="Введите пароль" />
-        </div>
-        <div v-if="ActiveModalName === 'authorization'">
-          <p>Авторизация</p>
-          <div>
-            <p>Логин</p>
-            <input type="text" placeholder="Введите логин" />
-          </div>
-          <div>
-            <p>Пароль</p>
-            <input type="text" placeholder="Введите пароль" />
-          </div>
-        </div>
-      </div>
-    </ModalWindow> -->
   </div>
 </template>
 

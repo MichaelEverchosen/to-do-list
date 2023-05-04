@@ -1,11 +1,10 @@
 <template>
   <div class="filter-todo">
-    <select v-model="select" сlass="select">
-      <option v-for="(select, index) in selects" :key="index">
+    <select v-model="selected" сlass="select">
+      <option v-for="(select, index) in options" :key="index">
         {{ select }}
       </option>
     </select>
-    <FeatherIcon class="btn" @click="searchTodo" type="search" />
   </div>
 </template>
 
@@ -13,9 +12,18 @@
 export default {
   data() {
     return {
-      selects: ["По времени", "По дате", "По cрочности", "По алфавиту"],
-      select: "Срочно",
+      options: ["-", "Низкий", "Средний", "Высокий"],
+      selected: "",
     };
+  },
+  watch: {
+    selected() {
+      if (this.selected === "-") {
+        this.$store.commit("clearPriority");
+        return;
+      }
+      this.$store.commit("setPriority", this.selected);
+    },
   },
 };
 </script>

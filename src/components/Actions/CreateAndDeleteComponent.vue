@@ -17,18 +17,30 @@
       />
     </div>
     <div class="data">
-      <CustomSelect :options="priorityOptions" v-model="priority" />
+      <CustomSelect
+        :options="priorityOptions"
+        v-model="todo.priority"
+        returnedKey="text"
+      />
       <input
         class="modal-edit"
+        v-model="todo.date"
         type="date"
         id="data-picker"
+        min="2023-01-01"
+        max="2030-12-31"
         placeholder="Выберите дату"
       />
     </div>
     <div class="subtasks">
       <div v-for="(task, idx) in todo.tasks" :key="idx">
-        <input type="checkbox" />
-        <input class="modal-edit" type="text" placeholder="Введите подзадачу" />
+        <input type="checkbox" v-model="task.status" />
+        <input
+          class="modal-edit"
+          v-model="task.description"
+          type="text"
+          placeholder="Введите подзадачу"
+        />
       </div>
     </div>
     <div class="add-btn">
@@ -53,11 +65,12 @@ export default {
         title: "",
         description: "",
         priority: "",
+        date: "",
         isComplete: false,
         tasks: [
           {
             description: "",
-            status: false,
+            status: true,
           },
         ],
       },
@@ -66,12 +79,14 @@ export default {
         { text: "Средний", key: "middle" },
         { text: "Высокий", key: "high" },
       ],
-      priority: {},
+      priorityText: [],
       isEditing: false,
     };
   },
+
   created() {
-    this.priority = this.priorityOptions[0];
+    this.priorityText = this.priorityOptions[0].text;
+    this.priority = Object.keys(this.priorityText[0]);
 
     const todoForEditing = this.$store.getters["getActiveTodo"];
     this.isEditing = !!todoForEditing;

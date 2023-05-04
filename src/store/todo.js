@@ -4,95 +4,261 @@ const todo = new Vuex.Store({
   state: {
     todos: [
       {
-        title: "Сходить посрать",
-        description: "cосать",
-        priority: "Срочно",
-        data: "12/12/2033",
+        title: "Test title 1",
+        description: "",
+        priority: "Низкий",
+        date: "12/12/2033",
         isComplete: false,
         id: 0,
         tasks: [
           {
-            description: "Взять толканку",
+            description: "Test description 1",
             status: false,
           },
           {
-            description: "Сесть на толчок",
+            description: "Test description 2",
             status: false,
           },
           {
-            description: "Посрать",
+            description: "Test description 3",
             status: false,
           },
         ],
       },
       {
-        title: "Сходить пожрать",
-        description: "cосать",
-        priority: "Срочно",
-        data: "12/12/2033",
+        title: "Test title 2 ",
+        description: "",
+        priority: "Средний",
+        date: "12/12/2033",
         isComplete: false,
         id: 1,
         tasks: [
           {
-            description: "Взять еду",
+            description: "Test description 1",
             status: false,
           },
           {
-            description: "Сесть за стол",
+            description: "Test description 2",
             status: false,
           },
           {
-            description: "Посрать",
+            description: "Test description 3",
             status: false,
           },
         ],
       },
       {
-        title: "Сходить попить",
-        description: "cосать",
-        priority: "Срочно",
-        data: "12/12/2033",
+        title: "Test title 3 ",
+        description: "",
+        priority: "Высокий",
+        date: "12/12/2033",
         isComplete: false,
         id: 2,
         tasks: [
           {
-            description: "Взять стакан",
+            description: "Test description 1",
             status: false,
           },
           {
-            description: "Сесть на комп",
+            description: "Test description 2",
             status: false,
           },
           {
-            description: "Посрать",
+            description: "Test description 3",
             status: false,
           },
         ],
       },
       {
-        title: "Сходить поиграть",
-        description: "cосать",
-        priority: "Срочно",
-        data: "12/12/2033",
+        title: "Test title 4",
+        description: "",
+        priority: "Низкий",
+        date: "12/12/2033",
         isComplete: false,
         id: 3,
         tasks: [
           {
-            description: "Взять мозги",
+            description: "Test description 1",
             status: false,
           },
           {
-            description: "Сесть за комп",
+            description: "Test description 2",
             status: false,
           },
           {
-            description: "Посрать",
+            description: "Test description 3",
+            status: false,
+          },
+        ],
+      },
+      {
+        title: "Test title 5 ",
+        description: "",
+        priority: "Средний",
+        date: "12/12/2033",
+        isComplete: false,
+        id: 0,
+        tasks: [
+          {
+            description: "Test description 1",
+            status: false,
+          },
+          {
+            description: "Test description 2",
+            status: false,
+          },
+          {
+            description: "Test description 3",
+            status: false,
+          },
+        ],
+      },
+      {
+        title: "Test title 6 ",
+        description: "",
+        priority: "Высокий",
+        date: "12/12/2033",
+        isComplete: false,
+        id: 0,
+        tasks: [
+          {
+            description: "Test description 1",
+            status: false,
+          },
+          {
+            description: "Test description 2",
+            status: false,
+          },
+          {
+            description: "Test description 3",
+            status: false,
+          },
+        ],
+      },
+      {
+        title: "Test title 7 ",
+        description: "",
+        priority: "Низкий",
+        date: "12/12/2033",
+        isComplete: false,
+        id: 0,
+        tasks: [
+          {
+            description: "Test description 1",
+            status: false,
+          },
+          {
+            description: "Test description 2",
+            status: false,
+          },
+          {
+            description: "Test description 3",
+            status: false,
+          },
+        ],
+      },
+      {
+        title: "Test title 8 ",
+        description: "",
+        priority: "Средний",
+        date: "12/12/2033",
+        isComplete: false,
+        id: 0,
+        tasks: [
+          {
+            description: "Test description 1",
+            status: false,
+          },
+          {
+            description: "Test description 2",
+            status: false,
+          },
+          {
+            description: "Test description 3",
+            status: false,
+          },
+        ],
+      },
+      {
+        title: "Test title 9 ",
+        description: "",
+        priority: "Высокий",
+        date: "12/12/2033",
+        isComplete: false,
+        id: 0,
+        tasks: [
+          {
+            description: "Test description 1",
+            status: false,
+          },
+          {
+            description: "Test description 2",
+            status: false,
+          },
+          {
+            description: "Test description 3",
+            status: false,
+          },
+        ],
+      },
+      {
+        title: "Test title 10 ",
+        description: "",
+        priority: "Низкий",
+        date: "12/12/2033",
+        isComplete: false,
+        id: 0,
+        tasks: [
+          {
+            description: " Test description 1",
+            status: false,
+          },
+          {
+            description: "Test description 2",
+            status: false,
+          },
+          {
+            description: "Test description 3",
             status: false,
           },
         ],
       },
     ],
     activeTodoId: null,
+    todoCount: 0,
+    displaySettings: {
+      search: "",
+      priority: "",
+    },
+    pagination: {
+      page: 1,
+      perPage: 5,
+      // listLength: this.$store.commit("taskArrayLength"),
+      // pageCount: this.$store.commit("taskArrayLength"),
+    },
+  },
+  getters: {
+    getTodos(state) {
+      let todos = window.lodash.cloneDeep(state.todos);
+      if (state.displaySettings.search.length) {
+        todos = todos.filter((todo) => {
+          return todo.title
+            .toLowerCase()
+            .includes(state.displaySettings.search.toLowerCase());
+        });
+      }
+      if (state.displaySettings.priority.length) {
+        todos = todos.filter((todo) => {
+          return todo.priority
+            .toLowerCase()
+            .includes(state.displaySettings.priority.toLowerCase());
+        });
+      }
+      return todos;
+    },
+    getActiveTodo(state) {
+      return state.todos.find((todo) => todo.id === state.activeTodoId);
+    },
   },
   mutations: {
     deleteTodo(state, id) {
@@ -104,6 +270,7 @@ const todo = new Vuex.Store({
         title: todo.title,
         description: todo.description,
         priority: todo.priority,
+        date: state.date,
         id: state.todoCount++,
         isComplete: false,
         tasks: todo.tasks,
@@ -117,13 +284,25 @@ const todo = new Vuex.Store({
     setActiveTodoId(state, id) {
       state.activeTodoId = id;
     },
-  },
-  getters: {
-    getTodos(state) {
-      return state.todos;
+    taskArrayLength(state) {
+      state.pagination.listLength = this.state.todos.length;
     },
-    getActiveTodo(state) {
-      return state.todos.find((todo) => todo.id === state.activeTodoId);
+    numberOfTaskPages(state) {
+      state.pagination.pageCount =
+        this.state.pagination.listLength / this.state.pagination.perPage;
+    },
+    //  Дальше все связонное с настройкой отображения списка
+    setSearchString(state, search) {
+      state.displaySettings.search = search;
+    },
+    clearSearchBar(state) {
+      state.displaySettings.search = "";
+    },
+    setPriority(state, priority) {
+      state.displaySettings.priority = priority;
+    },
+    clearPriority(state) {
+      state.displaySettings.priority = "";
     },
   },
 });

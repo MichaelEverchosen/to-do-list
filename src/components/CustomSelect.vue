@@ -19,6 +19,14 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    returnedKey: {
+      type: String,
+      default: "id",
+    },
+    isReturnEntity: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     selectedValue: {
@@ -26,7 +34,13 @@ export default {
         return this.modelValue;
       },
       set(value) {
-        this.$emit("update:modelValue", value);
+        this.$emit(
+          "update:modelValue",
+          (() => {
+            if (this.isReturnEntity) return value;
+            return value[this.returnedKey];
+          })()
+        );
       },
     },
   },
